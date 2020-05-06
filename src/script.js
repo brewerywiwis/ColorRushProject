@@ -3,13 +3,32 @@ function f1(id) {
   if (e.style.display == "block") e.style.display = "none";
   else e.style.display = "block";
 }
+
 const width = 500;
 const height = 500;
-const maxLevel = 100;
+const maxLevel = 50;
+const colorVary = 20;
 var nowLevel = 1;
 var difficult = 4;
-var s = 5;
+var s = 10;
 var stage;
+
+function randomCorrectFakeBoxwithColor(difficult) {
+  var R = Math.floor(Math.random() * 255);
+  var G = Math.floor(Math.random() * 255);
+  var B = Math.floor(Math.random() * 255);
+  var rgb_invalid = "rgb(" + R + "," + G + "," + B + ")";
+  var rgb_correct =
+    "rgb(" +
+    (R + colorVary) +
+    "," +
+    (G + colorVary) +
+    "," +
+    (B + colorVary) +
+    ")";
+  var n = Math.floor(Math.random() * difficult);
+  return [rgb_invalid, rgb_correct, n];
+}
 
 function newGame() {
   /////////////////////////////////////////////////////
@@ -36,20 +55,51 @@ function newGame() {
         newGame();
       });
     winLayer.add(bg, button);
+    return winLayer;
+  }
+
+  function gameLose() {
+    var loseLayer = new Konva.Layer();
+    var bg = new Konva.Rect({
+      width: width,
+      height: height,
+      fill: "black",
+    });
+    var button = new Konva.Rect({
+      width: 100,
+      height: 100,
+      fill: "red",
+      cornerRadius: 10,
+    })
+      .on("mouseover", () => {
+        stage.container().style.cursor = "pointer";
+      })
+      .on("mouseout", () => {
+        stage.container().style.cursor = "default";
+      })
+      .on("click", () => {
+        newGame();
+      });
+    loseLayer.add(bg, button);
     stage.destroyChildren();
-    stage.add(winLayer);
+    stage.add(loseLayer);
   }
+
+  function nextLevel() {
+    nowLevel++;
+    var nextLevelLayer = createLevel();
+    stage.destroyChildren();
+    stage.add(nextLevelLayer);
+  }
+
   ////////////////////////////////////////////////////////
-  function checkWinOrLose() {
-      //wait for implementing 
-    console.log("click");
-  }
   function createLevel() {
     if (nowLevel > maxLevel) {
       return gameWin();
     }
-    var levelLayer = new Konva.Layer();
     difficult = nowLevel % 4 === 0 ? ++difficult : difficult;
+    var levelLayer = new Konva.Layer();
+    var rand = randomCorrectFakeBoxwithColor(difficult ** 2 - 1);
     var d = Math.round((width - (difficult - 1) * s) / difficult);
     while (d * difficult + s * (difficult - 1) > width) {
       s -= 0.1;
@@ -62,7 +112,7 @@ function newGame() {
           y: i * (d + s),
           width: d,
           height: d,
-          fill: "red",
+          fill: difficult * i + j === rand[2] ? rand[1] : rand[0],
         })
           .on("mouseover", () => {
             stage.container().style.cursor = "pointer";
@@ -71,16 +121,21 @@ function newGame() {
             stage.container().style.cursor = "default";
           })
           .on("click", () => {
-            checkWinOrLose();
+            if (difficult * i + j === rand[2]) {
+              nextLevel();
+            } else {
+              gameLose();
+            }
           });
         levelLayer.add(box);
       }
     }
     return levelLayer;
   }
+
   nowLevel = 1;
   difficult = 4;
-  s = 5;
+  s = 10;
   var stage = new Konva.Stage({
     container: "game",
     width: width,
