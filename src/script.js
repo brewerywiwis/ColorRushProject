@@ -128,6 +128,8 @@ function newGame() {
     if (nowLevel > maxLevel) {
       return gameWin();
     }
+    var score = document.getElementById('score')
+    score.innerHTML = nowLevel;
     difficult = nowLevel % 4 === 0 ? ++difficult : difficult;
     var allFrame = outerFrame + innerFrame;
     var levelLayer = new Konva.Layer();
@@ -153,11 +155,7 @@ function newGame() {
             stage.container().style.cursor = "default";
           })
           .on("click", () => {
-            if (difficult * i + j === rand[2]) {
-              nextLevel();
-            } else {
-              gameLose();
-            }
+            difficult * i + j === rand[2] ? nextLevel() : gameLose();
           });
         levelLayer.add(box);
       }
@@ -165,7 +163,7 @@ function newGame() {
     return levelLayer;
   }
   ///////////////////////////////////////////////////////////
-  nowLevel = 1;
+  nowLevel = 0;
   difficult = 4;
   s = 10;
   var stage = new Konva.Stage({
