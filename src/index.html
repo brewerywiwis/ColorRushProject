@@ -3,13 +3,20 @@
   <head>
     <meta charset="UTF-8" />
     <link rel="stylesheet" href="./style.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Galada&display=swap" rel="stylesheet">
     <title>ColorRush Project</title>
   </head>
 
-  <body>
-    <div id="h">Hello to new project</div>
-    <button onclick="f1('game')">Click</button>
-    <div id="game"></div>
+  <body id='body'>
+      <div id="centerbox">
+          <div id="topleft">
+              <label >Timer </label></label><label id="minutes">00</label>:<label id="seconds">00</label>
+          </div>
+          <div id="topright">
+              <label>Score </label><label> 00 </label>
+          </div>
+          <div id="game"></div>
+      </div>
   </body>
   <footer>
     <script src="https://unpkg.com/konva@4.0.0/konva.min.js"></script>

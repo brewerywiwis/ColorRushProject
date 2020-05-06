@@ -1,11 +1,29 @@
-function f1(id) {
-  var e = document.getElementById(id);
-  if (e.style.display == "block") e.style.display = "none";
-  else e.style.display = "block";
+function startTimer() {
+  var minutesLabel = document.getElementById("minutes");
+  var secondsLabel = document.getElementById("seconds");
+  var totalSeconds = 0;
+  setInterval(setTime, 1000);
+
+  function setTime() {
+    ++totalSeconds;
+    secondsLabel.innerHTML = pad(totalSeconds % 60);
+    minutesLabel.innerHTML = pad(parseInt(totalSeconds / 60));
+  }
+
+  function pad(val) {
+    var valString = val + "";
+    if (valString.length < 2) {
+      return "0" + valString;
+    } else {
+      return valString;
+    }
+  }
 }
 
 const width = 500;
 const height = 500;
+const outerFrame = 30;
+const innerFrame = 30;
 const maxLevel = 50;
 const colorVary = 20;
 var nowLevel = 1;
@@ -31,7 +49,7 @@ function randomCorrectFakeBoxwithColor(difficult) {
 }
 
 function newGame() {
-  /////////////////////////////////////////////////////
+  ///////////////////////////////////////////////////////////
   function gameWin() {
     var winLayer = new Konva.Layer();
     var bg = new Konva.Rect({
@@ -57,7 +75,7 @@ function newGame() {
     winLayer.add(bg, button);
     return winLayer;
   }
-
+  ///////////////////////////////////////////////////////////
   function gameLose() {
     var loseLayer = new Konva.Layer();
     var bg = new Konva.Rect({
@@ -84,32 +102,46 @@ function newGame() {
     stage.destroyChildren();
     stage.add(loseLayer);
   }
-
+  ///////////////////////////////////////////////////////////
   function nextLevel() {
     nowLevel++;
     var nextLevelLayer = createLevel();
+    var bgLayer = new Konva.Layer();
+    var outerBg = new Konva.Rect({
+      width: width,
+      height: height,
+      fill: "black",
+    });
+    var innerBg = new Konva.Rect({
+      x: innerFrame / 2,
+      y: innerFrame / 2,
+      width: width - innerFrame,
+      height: height - innerFrame,
+      fill: "white",
+    });
+    bgLayer.add(outerBg, innerBg);
     stage.destroyChildren();
-    stage.add(nextLevelLayer);
+    stage.add(bgLayer, nextLevelLayer);
   }
-
   ////////////////////////////////////////////////////////
   function createLevel() {
     if (nowLevel > maxLevel) {
       return gameWin();
     }
     difficult = nowLevel % 4 === 0 ? ++difficult : difficult;
+    var allFrame = outerFrame + innerFrame;
     var levelLayer = new Konva.Layer();
     var rand = randomCorrectFakeBoxwithColor(difficult ** 2 - 1);
-    var d = Math.round((width - (difficult - 1) * s) / difficult);
+    var d = Math.round((width - allFrame - (difficult - 1) * s) / difficult);
     while (d * difficult + s * (difficult - 1) > width) {
       s -= 0.1;
-      d = Math.round((width - (difficult - 1) * s) / difficult);
+      d = Math.round((width - allFrame - (difficult - 1) * s) / difficult);
     }
     for (let i = 0; i < difficult; i++) {
       for (let j = 0; j < difficult; j++) {
         var box = new Konva.Rect({
-          x: j * (d + s),
-          y: i * (d + s),
+          x: allFrame / 2 + j * (d + s),
+          y: allFrame / 2 + i * (d + s),
           width: d,
           height: d,
           fill: difficult * i + j === rand[2] ? rand[1] : rand[0],
@@ -132,7 +164,7 @@ function newGame() {
     }
     return levelLayer;
   }
-
+  ///////////////////////////////////////////////////////////
   nowLevel = 1;
   difficult = 4;
   s = 10;
@@ -142,12 +174,19 @@ function newGame() {
     height: height,
   });
   var bgLayer = new Konva.Layer();
-  var bg = new Konva.Rect({
+  var outerBg = new Konva.Rect({
     width: width,
     height: height,
+    fill: "black",
+  });
+  var innerBg = new Konva.Rect({
+    x: innerFrame / 2,
+    y: innerFrame / 2,
+    width: width - innerFrame,
+    height: height - innerFrame,
     fill: "white",
   });
-  bgLayer.add(bg);
+  bgLayer.add(outerBg, innerBg);
 
   var levelLayer = createLevel();
 
@@ -155,3 +194,4 @@ function newGame() {
 }
 
 newGame();
+startTimer();
