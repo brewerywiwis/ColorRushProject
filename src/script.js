@@ -1,7 +1,8 @@
+var totalSeconds = 0;
+
 function startTimer() {
   var minutesLabel = document.getElementById("minutes");
   var secondsLabel = document.getElementById("seconds");
-  var totalSeconds = 0;
   setInterval(setTime, 1000);
 
   function setTime() {
@@ -128,7 +129,7 @@ function newGame() {
     if (nowLevel > maxLevel) {
       return gameWin();
     }
-    var score = document.getElementById('score')
+    var score = document.getElementById("score");
     score.innerHTML = nowLevel;
     difficult = nowLevel % 4 === 0 ? ++difficult : difficult;
     var allFrame = outerFrame + innerFrame;
@@ -163,8 +164,9 @@ function newGame() {
     return levelLayer;
   }
   ///////////////////////////////////////////////////////////
+  totalSeconds = 0;
   nowLevel = 0;
-  difficult = 4;
+  difficult = 3;
   s = 10;
   var stage = new Konva.Stage({
     container: "game",
@@ -191,5 +193,5 @@ function newGame() {
   stage.add(bgLayer, levelLayer);
 }
 
-newGame();
 startTimer();
+newGame();
