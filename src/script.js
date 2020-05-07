@@ -56,7 +56,7 @@ function newGame() {
     var bg = new Konva.Rect({
       width: width,
       height: height,
-      fill: "black",
+      fill: "Snow",
     });
     var button = new Konva.Rect({
       width: 100,
@@ -82,24 +82,62 @@ function newGame() {
     var bg = new Konva.Rect({
       width: width,
       height: height,
-      fill: "black",
+      fill: "#FFF0F5",
     });
-    var button = new Konva.Rect({
-      width: 100,
-      height: 100,
-      fill: "red",
-      cornerRadius: 10,
+    var showScore = new Konva.Text({
+      y: 100,
+      text: "Score : "+(nowLevel),
+      fontFamily: 'Julius Sans One',
+      fontSize: 60,
+      fill: "#555",
+      padding: 20,
+      width: stage.width(),
+      align: "center",
+      font: "Cordia New",
+    });
+    var text1 = new Konva.Text({
+      y: 200,
+      text: "You are excellent",
+      fontFamily: 'Julius Sans One',
+      fontSize: 22,
+      fill: "#555",
+      padding: 20,
+      width: stage.width(),
+      align: "center",
+    });
+    var text2 = new Konva.Text({
+      y: 350,
+      text: "PLAY AGAIN",
+      fontFamily: 'Julius Sans One',
+      fontSize: 33,
+      fill: "#555",
+      padding: 20,
+      width: stage.width(),
+      align: "center",
     })
       .on("mouseover", () => {
         stage.container().style.cursor = "pointer";
+        button.fill("LightGray");
+        loseLayer.draw();
       })
       .on("mouseout", () => {
         stage.container().style.cursor = "default";
+        button.fill("#FFFAFA");
+        loseLayer.draw();
       })
       .on("click", () => {
         newGame();
       });
-    loseLayer.add(bg, button);
+
+    var button = new Konva.Rect({
+      x: stage.width()/3.7,
+      y: 350,
+      width: 230,
+      height: text2.height(),
+      fill: "#FFFAFA",
+      cornerRadius: 5,
+    });
+    loseLayer.add(bg, button, showScore, text1, text2);
     stage.destroyChildren();
     stage.add(loseLayer);
   }
@@ -111,7 +149,7 @@ function newGame() {
     var outerBg = new Konva.Rect({
       width: width,
       height: height,
-      fill: "black",
+      fill: "Snow",
     });
     var innerBg = new Konva.Rect({
       x: innerFrame / 2,
@@ -177,7 +215,7 @@ function newGame() {
   var outerBg = new Konva.Rect({
     width: width,
     height: height,
-    fill: "black",
+    fill: "Snow",
   });
   var innerBg = new Konva.Rect({
     x: innerFrame / 2,
