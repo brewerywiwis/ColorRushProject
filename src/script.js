@@ -43,6 +43,10 @@ var nowLevel = 1;
 var difficult = 4;
 var s = 10;
 var stage;
+var clickSound = document.getElementById('clickSound');
+var correctSound = document.getElementById('correctSound');
+var wrongSound = document.getElementById('wrongSound');
+var endSceneSound = document.getElementById('endSceneSound');
 
 function randomCorrectFakeBoxwithColor(difficult) {
   var R = Math.floor(Math.random() * 255);
@@ -83,6 +87,7 @@ function newGame() {
         stage.container().style.cursor = "default";
       })
       .on("click", () => {
+        clickSound.play();
         newGame();
       });
     winLayer.add(bg, button);
@@ -110,8 +115,8 @@ function newGame() {
     });
     var text1 = new Konva.Text({
       y: 200,
-      text: "You are excellent",
-      fontFamily: "Julius Sans One",
+      text: "Do you want to try again?",
+      fontFamily: 'Julius Sans One',
       fontSize: 22,
       fill: "#555",
       padding: 20,
@@ -139,6 +144,9 @@ function newGame() {
         loseLayer.draw();
       })
       .on("click", () => {
+        wrongSound.pause();
+        wrongSound.currentTime = 0;
+        clickSound.play();
         newGame();
       });
 
@@ -207,7 +215,15 @@ function newGame() {
             stage.container().style.cursor = "default";
           })
           .on("click", () => {
-            difficult * i + j === rand[2] ? nextLevel() : gameLose();
+            if(difficult * i + j === rand[2]){
+              clickSound.play();
+              correctSound.play();
+              nextLevel();
+            }else{
+              clickSound.play();
+              wrongSound.play();
+              gameLose();
+            }
           });
         levelLayer.add(box);
       }
