@@ -1,3 +1,34 @@
+const minutesLabel = document.getElementById("minutes");
+const secondsLabel = document.getElementById("seconds");
+var totalSeconds;
+var timer;
+
+function startTimer() {
+  totalSeconds = 0;
+  setTime();
+  timer = setInterval(setTime, 1000);
+}
+
+function stopTimer() {
+  clearInterval(timer);
+  totalSeconds = 0;
+  setTime();
+}
+
+function setTime() {
+  function pad(val) {
+    var valString = val + "";
+    if (valString.length < 2) {
+      return "0" + valString;
+    } else {
+      return valString;
+    }
+  }
+  secondsLabel.innerHTML = pad(totalSeconds % 60);
+  minutesLabel.innerHTML = pad(parseInt(totalSeconds / 60));
+  totalSeconds++;
+}
+
 function showHideTimeScore(show) {
   var tl = document.getElementById("topleft");
   var tr = document.getElementById("topright");
@@ -7,30 +38,6 @@ function showHideTimeScore(show) {
   } else {
     tl.style.visibility = "hidden";
     tr.style.visibility = "hidden";
-  }
-}
-
-var totalSeconds = 0;
-var timer;
-
-function startTimer() {
-  var minutesLabel = document.getElementById("minutes");
-  var secondsLabel = document.getElementById("seconds");
-  timer = setInterval(setTime, 1000);
-
-  function setTime() {
-    ++totalSeconds;
-    secondsLabel.innerHTML = pad(totalSeconds % 60);
-    minutesLabel.innerHTML = pad(parseInt(totalSeconds / 60));
-  }
-
-  function pad(val) {
-    var valString = val + "";
-    if (valString.length < 2) {
-      return "0" + valString;
-    } else {
-      return valString;
-    }
   }
 }
 
@@ -123,9 +130,6 @@ function newGame() {
 ///////////////////////////////////////////////////////////
 function gameLose() {
   showHideTimeScore(false);
-  clearInterval(timer);
-  totalSeconds = 0;
-
   var loseLayer = new Konva.Layer();
   var bg = new Konva.Rect({
     width: width,
@@ -179,6 +183,7 @@ function gameLose() {
       wrongSound.currentTime = 0;
       clickSound.play();
       newGame();
+      startTimer();
     });
   var button = new Konva.Rect({
     x: stage.width() / 3.7,
@@ -195,7 +200,6 @@ function gameLose() {
 ///////////////////////////////////////////////////////////
 function nextLevel() {
   nowLevel++;
-  var nextLevelLayer = createLevel();
   var bgLayer = new Konva.Layer();
   var outerBg = new Konva.Rect({
     width: width,
@@ -209,6 +213,9 @@ function nextLevel() {
     height: height - innerFrame,
     fill: "white",
   });
+
+  var nextLevelLayer = createLevel();
+
   bgLayer.add(outerBg, innerBg);
   stage.destroyChildren();
   stage.add(bgLayer, nextLevelLayer);
@@ -251,6 +258,7 @@ function createLevel() {
             clickSound.play();
             wrongSound.play();
             gameLose();
+            stopTimer();
           }
         });
       levelLayer.add(box);
