@@ -43,10 +43,10 @@ var nowLevel = 1;
 var difficult = 4;
 var s = 10;
 var stage;
-var clickSound = document.getElementById('clickSound');
-var correctSound = document.getElementById('correctSound');
-var wrongSound = document.getElementById('wrongSound');
-var endSceneSound = document.getElementById('endSceneSound');
+var clickSound = document.getElementById("clickSound");
+var correctSound = document.getElementById("correctSound");
+var wrongSound = document.getElementById("wrongSound");
+var endSceneSound = document.getElementById("endSceneSound");
 
 function randomCorrectFakeBoxwithColor(difficult) {
   var R = Math.floor(Math.random() * 255);
@@ -116,7 +116,7 @@ function newGame() {
     var text1 = new Konva.Text({
       y: 200,
       text: "Do you want to try again?",
-      fontFamily: 'Julius Sans One',
+      fontFamily: "Julius Sans One",
       fontSize: 22,
       fill: "#555",
       padding: 20,
@@ -158,6 +158,7 @@ function newGame() {
       fill: "#FFFAFA",
       cornerRadius: 5,
     });
+    totalSeconds = 0;
     loseLayer.add(bg, showScore, text1, button, text2);
     stage.destroyChildren();
     stage.add(loseLayer);
@@ -215,11 +216,11 @@ function newGame() {
             stage.container().style.cursor = "default";
           })
           .on("click", () => {
-            if(difficult * i + j === rand[2]){
+            if (difficult * i + j === rand[2]) {
               clickSound.play();
               correctSound.play();
               nextLevel();
-            }else{
+            } else {
               clickSound.play();
               wrongSound.play();
               gameLose();
