@@ -21,6 +21,18 @@ function startTimer() {
   }
 }
 
+function showHideTimeScore(show) {
+  var tl = document.getElementById("topleft");
+  var tr = document.getElementById("topright");
+  if (show) {
+    tl.style.visibility = "visible";
+    tr.style.visibility = "visible";
+  } else {
+    tl.style.visibility = "hidden";
+    tr.style.visibility = "hidden";
+  }
+}
+
 const width = 500;
 const height = 500;
 const outerFrame = 30;
@@ -78,6 +90,7 @@ function newGame() {
   }
   ///////////////////////////////////////////////////////////
   function gameLose() {
+    showHideTimeScore(false);
     var loseLayer = new Konva.Layer();
     var bg = new Konva.Rect({
       width: width,
@@ -86,8 +99,8 @@ function newGame() {
     });
     var showScore = new Konva.Text({
       y: 100,
-      text: "Score : "+(nowLevel),
-      fontFamily: 'Julius Sans One',
+      text: "Score : " + nowLevel,
+      fontFamily: "Julius Sans One",
       fontSize: 60,
       fill: "#555",
       padding: 20,
@@ -98,7 +111,7 @@ function newGame() {
     var text1 = new Konva.Text({
       y: 200,
       text: "You are excellent",
-      fontFamily: 'Julius Sans One',
+      fontFamily: "Julius Sans One",
       fontSize: 22,
       fill: "#555",
       padding: 20,
@@ -108,7 +121,7 @@ function newGame() {
     var text2 = new Konva.Text({
       y: 350,
       text: "PLAY AGAIN",
-      fontFamily: 'Julius Sans One',
+      fontFamily: "Julius Sans One",
       fontSize: 33,
       fill: "#555",
       padding: 20,
@@ -130,7 +143,7 @@ function newGame() {
       });
 
     var button = new Konva.Rect({
-      x: stage.width()/3.7,
+      x: stage.width() / 3.7,
       y: 350,
       width: 230,
       height: text2.height(),
@@ -202,6 +215,7 @@ function newGame() {
     return levelLayer;
   }
   ///////////////////////////////////////////////////////////
+  showHideTimeScore(true);
   totalSeconds = 0;
   nowLevel = 0;
   difficult = 3;
