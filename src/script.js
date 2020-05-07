@@ -119,13 +119,14 @@ function newGame() {
       align: "center",
     });
     var text2 = new Konva.Text({
+      x: stage.width() / 2 - 115,
       y: 350,
       text: "PLAY AGAIN",
       fontFamily: "Julius Sans One",
-      fontSize: 33,
+      fontSize: 30,
       fill: "#555",
       padding: 20,
-      width: stage.width(),
+      width: 230,
       align: "center",
     })
       .on("mouseover", () => {
@@ -141,7 +142,6 @@ function newGame() {
       .on("click", () => {
         newGame();
       });
-
     var button = new Konva.Rect({
       x: stage.width() / 3.7,
       y: 350,
@@ -150,7 +150,7 @@ function newGame() {
       fill: "#FFFAFA",
       cornerRadius: 5,
     });
-    loseLayer.add(bg, button, showScore, text1, text2);
+    loseLayer.add(bg, showScore, text1, button, text2);
     stage.destroyChildren();
     stage.add(loseLayer);
   }
