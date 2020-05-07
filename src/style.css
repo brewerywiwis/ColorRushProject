@@ -12,6 +12,7 @@
   width: 600px;
   height: 600px;
   margin: auto;
+  opacity:0.8;
 }
 #topleft {
   font-family: "Galada", cursive;
@@ -27,4 +28,8 @@
 }
 #body {
   background-color: #d0d0d0;
+  background-image: url('res/519.jpg');
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-size: 100% 100%;
 }
