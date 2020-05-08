@@ -192,7 +192,7 @@ function gameLose() {
     align: "center",
   });
   var showTime = new Konva.Text({
-    y: 155,
+    y: 165,
     text: "Time : " + minutesLabel.innerHTML + ":" + secondsLabel.innerHTML,
     fontFamily: "Julius Sans One",
     fontSize: 55,
@@ -202,7 +202,7 @@ function gameLose() {
     align: "center",
   });
   var text1 = new Konva.Text({
-    y: 250,
+    y: 275,
     text: "Do you want to try again?",
     fontFamily: "Julius Sans One",
     fontSize: 22,
