@@ -83,20 +83,65 @@ function startGame() {
   var bg = new Konva.Rect({
     width: width,
     height: height,
-    fill: "black",
+    fill: "#FFF0F5",
+  });
+  var text1 = new Konva.Text({
+    y: 100,
+    text: "COLORRUSH",
+    fontFamily: "Julius Sans One",
+    fontSize: 60,
+    fill: "#555",
+    padding: 20,
+    width: stage.width(),
+    align: "center",
+  });
+  var text2 = new Konva.Text({
+    y: 200,
+    text: "How well do your eyes distingush colors?",
+    fontFamily: 'Poiret One',
+    fontSize: 22,
+    fill: "#555",
+    padding: 20,
+    width: stage.width(),
+    align: "center",
+  });
+  var text3 = new Konva.Text({
+    x: stage.width() / 2 - 115,
+    y: 348,
+    text: "PLAY",
+    fontFamily: "Julius Sans One",
+    fontSize: 30,
+    fill: "#555",
+    padding: 20,
+    width: 230,
+    align: "center",
   })
     .on("mouseover", () => {
       stage.container().style.cursor = "pointer";
+      button.fill("LightGray");
+      startLayer.draw();
     })
     .on("mouseout", () => {
       stage.container().style.cursor = "default";
+      button.fill("#FFFAFA");
+      startLayer.draw();
     })
     .on("click", () => {
       clickSound.play();
       newGame();
       startTimer();
     });
-  startLayer.add(bg);
+  var button = new Konva.Rect({
+    x: stage.width() / 3.7,
+    y: 350,
+    width: 230,
+    height: text2.height(),
+    fill: "#FFFAFA",
+    cornerRadius: 5,
+  });
+
+
+  startLayer.add(bg,text1,text2,button,text3);
   stage.add(startLayer);
 }
 ///////////////////////////////////////////////////////////
@@ -137,7 +182,7 @@ function gameLose() {
     fill: "#FFF0F5",
   });
   var showScore = new Konva.Text({
-    y: 100,
+    y: 90,
     text: "Score : " + nowLevel,
     fontFamily: "Julius Sans One",
     fontSize: 60,
@@ -145,10 +190,19 @@ function gameLose() {
     padding: 20,
     width: stage.width(),
     align: "center",
-    font: "Cordia New",
+  });
+  var showTime = new Konva.Text({
+    y: 155,
+    text: "Time : " + minutesLabel.innerHTML + ":" + secondsLabel.innerHTML,
+    fontFamily: "Julius Sans One",
+    fontSize: 55,
+    fill: "#555",
+    padding: 20,
+    width: stage.width(),
+    align: "center",
   });
   var text1 = new Konva.Text({
-    y: 200,
+    y: 250,
     text: "Do you want to try again?",
     fontFamily: "Julius Sans One",
     fontSize: 22,
@@ -193,7 +247,7 @@ function gameLose() {
     fill: "#FFFAFA",
     cornerRadius: 5,
   });
-  loseLayer.add(bg, showScore, text1, button, text2);
+  loseLayer.add(bg, showScore, showTime, text1, button, text2);
   stage.destroyChildren();
   stage.add(loseLayer);
 }
